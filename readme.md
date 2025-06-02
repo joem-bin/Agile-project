@@ -28,4 +28,5 @@ Consider Dockerization,
 authentication,
 more db tables,
 better design for front end,
+make a github project
 
