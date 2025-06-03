@@ -4,7 +4,7 @@
 A simple Flask web application that serves HTML pages and uses SQLite as the database.
 
 ## Setup Instructions
-1. Clone the repository: `git clone <your-repo-url> && cd <your-repo-name>`
+1. Clone the repository: `git clone `
 
 2. Create and activate a virtual environment:  
    - **Windows:** `python -m venv .venv && .venv\Scripts\activate`
@@ -22,6 +22,7 @@ A simple Flask web application that serves HTML pages and uses SQLite as the dat
 - Update `requirements.txt`: `pip freeze > requirements.txt`
 - Deactivate virtual environment: `deactivate`
 - Remove virtual environment: `rm -rf .venv` (Mac/Linux) or `rmdir /s /q .venv` (Windows)
+- install  dependencies `pip install -r requirements.txt`
 
 ## Future Improvements
 Consider Dockerization, 
