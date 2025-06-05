@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>{{ ticket[2] }}</h2>
+    <p>{{ ticket[3] }}</p>
+
+    <h3>Comments:</h3>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment[3] }}</li>
+        {% endfor %}
+    </ul>
+
+    <form method="POST" action="/add_comment">
+        <textarea name="message" placeholder="Add a comment..."></textarea>
+        <input type="hidden" name="ticket_id" value="{{ ticket[0] }}">
+        <button type="submit">Submit Comment</button>
+    </form>
+
+    <a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>

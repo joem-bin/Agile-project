@@ -25,7 +25,7 @@ A simple Flask web application that serves HTML pages and uses SQLite as the dat
 - install  dependencies `pip install -r requirements.txt`
 
 ## Future Improvements
-Consider Dockerization, 
+Consider Dockerisation, 
 authentication,
 more db tables,
 better design for front end,

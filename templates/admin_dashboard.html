@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Admin Dashboard</h2>
+    <h3>All Tickets</h3>
+    <ul>
+        {% for ticket in tickets %}
+            <li><a href="/ticket/{{ ticket[0] }}">{{ ticket[2] }}</a> - Status: {{ ticket[4] }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/logout">Logout</a>
+</body>
+</html>
