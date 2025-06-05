@@ -6,7 +6,7 @@ def fetch_all():
     """Retrieve all records."""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM items")
+    cursor.execute("SELECT * FROM tickets")
     records = cursor.fetchall()
     conn.close()
     return records
@@ -42,9 +42,9 @@ if __name__ == "__main__":
     # Test fetching all records
     print("Current records:", fetch_all())
 
-    # Example operations
-    insert_item("New Item")
-    update_item(1, "Updated Item A")
-    delete_item(2)
+    # # Example operations
+    # insert_item("New Item")
+    # update_item(1, "Updated Item A")
+    # delete_item(2)
     
-    print("Updated records:", fetch_all())
+    # print("Updated records:", fetch_all())

@@ -5,8 +5,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    items = single_operations.fetch_all()  # Using modular DB functions
-    return render_template("home.html", items=items)
+    tickets = single_operations.fetch_all()  # Using modular DB functions
+    return render_template("home.html", items=tickets)
 
 if __name__ == "__main__":
     app.run(debug=True)
