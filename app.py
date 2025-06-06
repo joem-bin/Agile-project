@@ -9,10 +9,12 @@ DB_NAME = "test.db"
 def get_db_connection():
     return sqlite3.connect(DB_NAME)
 
+# landing page
 @app.route('/')
 def home():
     return render_template('login.html')
 
+# login functionality --> could add new user registration here
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
