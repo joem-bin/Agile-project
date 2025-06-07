@@ -20,6 +20,11 @@
         <button type="submit">Submit Comment</button>
     </form>
 
+    <form method="GET" action="{{ url_for('confirm_close_ticket', ticket_id=ticket[0]) }}">
+        <button type="submit">Close Ticket</button>
+    </form>
+
+
     <a href="/dashboard">Back to Dashboard</a>
 </body>
 </html>

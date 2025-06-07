@@ -33,10 +33,14 @@ def get_user(username, password):
 def get_tickets_for_user(user_id):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM tickets WHERE user_id = ?", (user_id,))
+    cursor.execute(
+        "SELECT * FROM tickets WHERE user_id = ? AND status != 'closed'",
+        (user_id,)
+    )
     tickets = cursor.fetchall()
     conn.close()
     return tickets
+
 
 def get_all_tickets():
     conn = get_db_connection()
@@ -61,3 +65,21 @@ def get_comments(ticket_id):
     comments = cursor.fetchall()
     conn.close()
     return comments
+
+def get_categories():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT category_id, category_name FROM categories")
+    categories = cursor.fetchall()
+    conn.close()
+    return categories
+
+def close_ticket(ticket_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE tickets SET status = 'closed' WHERE ticket_id = ?", (ticket_id,))
+    conn.commit()
+    conn.close()
+
+
+
