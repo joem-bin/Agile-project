@@ -26,6 +26,30 @@
     </form>
 
     <a href="/dashboard">Back to Dashboard</a>
+        <form method="GET" action="{{ url_for('confirm_close_ticket', ticket_id=ticket[0]) }}">
+        <button type="submit">Close Ticket</button>
+    </form>
+
+    {% if session['role'] == 'admin' %}
+
+    <!-- Status Change Form -->
+    <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
+        <label for="status">Change Ticket Status:</label>
+        <select name="status" id="status">
+            <option value="open" {% if ticket[5] == 'open' %}selected{% endif %}>Open</option>
+            <option value="in progress" {% if ticket[5] == 'in progress' %}selected{% endif %}>In Progress</option>
+            <option value="closed" {% if ticket[5] == 'closed' %}selected{% endif %}>Closed</option>
+        </select>
+        <button type="submit">Update Status</button>
+    </form>
+
+    <!-- Delete Ticket Button -->
+    <form method="POST" action="{{ url_for('delete_ticket_route', ticket_id=ticket[0]) }}" onsubmit="return confirm('Are you sure you want to permanently delete this ticket?');">
+        <button type="submit">Delete Ticket</button>
+    </form>
+
+    {% endif %}
+
 
 </body>
 </html>

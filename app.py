@@ -9,7 +9,9 @@ from database_operations import (
     get_comments_for_ticket,
     get_categories,
     close_ticket,
-    insert_comment
+    insert_comment,
+    delete_ticket, 
+    update_ticket_status
 )
 
 app = Flask(__name__)
@@ -92,6 +94,30 @@ def ticket_details(ticket_id):
     comments = get_comments_for_ticket(ticket_id)
 
     return render_template('ticket_details.html', ticket=ticket, comments=comments)
+
+
+
+@app.route('/delete_ticket/<int:ticket_id>', methods=['POST'])
+def delete_ticket_route(ticket_id):
+    if 'user_id' not in session or session['role'] != 'admin':
+        return redirect('/')
+
+    delete_ticket(ticket_id)
+    return redirect('/dashboard')
+
+@app.route('/update_ticket_status/<int:ticket_id>', methods=['POST'])
+def update_ticket_status_route(ticket_id):
+    if 'user_id' not in session or session['role'] != 'admin':
+        return redirect('/')
+
+    new_status = request.form.get('status')
+    if new_status not in ['open', 'in progress', 'closed']:
+        return redirect(url_for('ticket_details', ticket_id=ticket_id))  # invalid status, fallback
+
+    update_ticket_status(ticket_id, new_status)
+    return redirect(url_for('ticket_details', ticket_id=ticket_id))
+
+
 
 @app.route('/add_comment', methods=['POST'])
 def add_comment():

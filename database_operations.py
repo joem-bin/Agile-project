@@ -84,6 +84,26 @@ def get_comments_for_ticket(ticket_id):
     return comments
 
 
+def delete_ticket(ticket_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # First delete comments linked to ticket (because of FK constraint)
+    cursor.execute("DELETE FROM comments WHERE ticket_id = ?", (ticket_id,))
+    
+    cursor.execute("DELETE FROM tickets WHERE ticket_id = ?", (ticket_id,))
+    conn.commit()
+    conn.close()
+
+def update_ticket_status(ticket_id, new_status):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE tickets SET status = ? WHERE ticket_id = ?", (new_status, ticket_id))
+    conn.commit()
+    conn.close()
+
+
 def get_categories():
     conn = get_db_connection()
     cursor = conn.cursor()
