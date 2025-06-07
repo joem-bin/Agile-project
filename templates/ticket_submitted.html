@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Ticket Created Successfully!</h2>
+
+    <p><strong>Title:</strong> {{ title }}</p>
+    <p><strong>Description:</strong> {{ description }}</p>
+    <p><strong>Category:</strong> {{ category }}</p>
+
+    <a href="/dashboard"><button>Return to Dashboard</button></a>
+    <a href="/create_ticket"><button>Create Another Ticket</button></a>
+</body>
+</html>

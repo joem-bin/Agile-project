@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, url_for
+
 import sqlite3
 
 app = Flask(__name__)
@@ -58,6 +59,41 @@ def dashboard():
         'admin_dashboard.html' if session['role'] == 'admin' else 'user_dashboard.html',
         tickets=tickets
     )
+
+@app.route('/create_ticket', methods=['GET', 'POST'])
+def create_ticket():
+    if 'user_id' not in session:
+        return redirect('/')
+
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        category = request.form['category']
+
+        # TODO: Insert the ticket into the DB here (we'll add this later)
+
+        # Redirect to confirmation page, passing data as query params
+        return redirect(url_for('ticket_submitted', title=title, description=description, category=category))
+
+    return render_template('create_ticket.html')
+
+
+@app.route('/ticket_submitted')
+def ticket_submitted():
+    if 'user_id' not in session:
+        return redirect('/')
+
+    title = request.args.get('title')
+    description = request.args.get('description')
+    category = request.args.get('category')
+
+    if not title or not description or not category:
+        # Missing info, redirect to create_ticket
+        return redirect(url_for('create_ticket'))
+
+    return render_template('ticket_submitted.html', title=title, description=description, category=category)
+
+
 
 @app.route('/ticket/<int:ticket_id>')
 def ticket_details(ticket_id):
