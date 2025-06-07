@@ -33,6 +33,11 @@ def login():
     else:
         return render_template('error.html', message="Invalid credentials!")
 
+
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
+
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
