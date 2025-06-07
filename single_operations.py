@@ -15,12 +15,12 @@ def fetch_all():
     conn.close()
     return records
 
-
+# works
 def insert_test_ticket():
     user_id = 1
     title = 'Test Ticket'
     description = 'This is a test ticket inserted by test function.'
-    category_id = 1  # You can change this if you want
+    category_id = 1  
     status = 'in progress'
     created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -40,5 +40,4 @@ def insert_test_ticket():
 
 if __name__ == "__main__":
     insert_test_ticket()
-    # print("Current records:", fetch_all())
 
