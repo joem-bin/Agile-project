@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, session, url_for
 from datetime import datetime
 import sqlite3
+from database_operations import insert_ticket, get_db_connection
+
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Required for session management
@@ -68,13 +70,11 @@ def create_ticket():
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
-        category_id = request.form['category']  # match the form field
+        category_id = request.form['category']
         user_id = session['user_id']
 
-        # Use your reusable insert_ticket function!
         insert_ticket(user_id, category_id, title, description)
 
-        # Redirect to confirmation page
         return redirect(url_for('ticket_submitted', title=title, description=description, category=category_id))
 
     return render_template('create_ticket.html')
@@ -117,21 +117,6 @@ def logout():
     session.clear()
     return redirect('/')
 
-def insert_ticket(user_id, category_id, title, description, status='open'):
-    created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        INSERT INTO tickets (user_id, category_id, title, description, status, created_at)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, (user_id, category_id, title, description, status, created_at))
-
-    conn.commit()
-    conn.close()
-
-    print(f"Inserted ticket for user_id {user_id} with status '{status}'.")
 
 
 if __name__ == '__main__':
