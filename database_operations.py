@@ -33,10 +33,14 @@ def get_user(username, password):
 def get_tickets_for_user(user_id):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM tickets WHERE user_id = ?", (user_id,))
+    cursor.execute(
+        "SELECT * FROM tickets WHERE user_id = ? AND status != 'closed'",
+        (user_id,)
+    )
     tickets = cursor.fetchall()
     conn.close()
     return tickets
+
 
 def get_all_tickets():
     conn = get_db_connection()
