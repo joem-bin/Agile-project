@@ -70,3 +70,12 @@ def get_categories():
     conn.close()
     return categories
 
+def close_ticket(ticket_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE tickets SET status = 'closed' WHERE ticket_id = ?", (ticket_id,))
+    conn.commit()
+    conn.close()
+
+
+

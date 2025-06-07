@@ -6,7 +6,8 @@ from database_operations import (
     get_all_tickets,
     get_ticket,
     get_comments,
-    get_categories  
+    get_categories,
+    close_ticket
 )
 
 app = Flask(__name__)
@@ -90,10 +91,27 @@ def ticket_details(ticket_id):
 
     return render_template('ticket_details.html', ticket=ticket, comments=comments)
 
+@app.route('/confirm_close_ticket/<int:ticket_id>', methods=['GET', 'POST'])
+def confirm_close_ticket(ticket_id):
+    if 'user_id' not in session:
+        return redirect('/')
+
+    if request.method == 'POST':
+        if request.form.get('confirm') == 'yes':
+            close_ticket(ticket_id)
+            return redirect(url_for('dashboard'))
+        else:
+            return redirect(url_for('ticket_details', ticket_id=ticket_id))
+
+    return render_template('confirm_close_ticket.html', ticket_id=ticket_id)
+
+
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
