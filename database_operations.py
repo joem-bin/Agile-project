@@ -58,6 +58,7 @@ def get_ticket(ticket_id):
     conn.close()
     return ticket
 
+# might be moot now
 def get_comments(ticket_id):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -65,6 +66,23 @@ def get_comments(ticket_id):
     comments = cursor.fetchall()
     conn.close()
     return comments
+
+def get_comments_for_ticket(ticket_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT comments.comment_id, comments.ticket_id, comments.user_id, comments.message, comments.created_at, users.username
+        FROM comments
+        JOIN users ON comments.user_id = users.user_id
+        WHERE comments.ticket_id = ?
+        ORDER BY comments.created_at ASC
+    """, (ticket_id,))
+
+    comments = cursor.fetchall()
+    conn.close()
+    return comments
+
 
 def get_categories():
     conn = get_db_connection()

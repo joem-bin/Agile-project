@@ -6,6 +6,7 @@ from database_operations import (
     get_all_tickets,
     get_ticket,
     get_comments,
+    get_comments_for_ticket,
     get_categories,
     close_ticket,
     insert_comment
@@ -88,7 +89,7 @@ def ticket_submitted():
 @app.route('/ticket/<int:ticket_id>')
 def ticket_details(ticket_id):
     ticket = get_ticket(ticket_id)
-    comments = get_comments(ticket_id)
+    comments = get_comments_for_ticket(ticket_id)
 
     return render_template('ticket_details.html', ticket=ticket, comments=comments)
 

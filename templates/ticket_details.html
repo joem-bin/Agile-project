@@ -10,7 +10,12 @@
     <h3>Comments:</h3>
     <ul>
         {% for comment in comments %}
-            <li>{{ comment[3] }}</li>
+            <li>
+                <strong>{{ comment[5] }}</strong> — <em>{{ comment[4] }}</em><br>
+                {{ comment[3] }}
+            </li>
+        {% else %}
+            <li>No comments yet.</li>
         {% endfor %}
     </ul>
 
@@ -20,12 +25,7 @@
         <button type="submit">Submit Comment</button>
     </form>
 
-
-    <form method="GET" action="{{ url_for('confirm_close_ticket', ticket_id=ticket[0]) }}">
-        <button type="submit">Close Ticket</button>
-    </form>
-
-
     <a href="/dashboard">Back to Dashboard</a>
+
 </body>
 </html>
