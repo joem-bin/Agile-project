@@ -4,43 +4,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h2>{{ ticket[2] }}</h2>
-    <p>{{ ticket[3] }}</p>
+<h2>{{ ticket[2] }}</h2>
+<p>{{ ticket[3] }}</p>
 
-    <h3>Comments:</h3>
-    <ul>
-        {% for comment in comments %}
-            <li>
-                <strong>{{ comment[5] }}</strong> — <em>{{ comment[4] }}</em><br>
-                {{ comment[3] }}
-            </li>
-        {% else %}
-            <li>No comments yet.</li>
-        {% endfor %}
-    </ul>
+<p><strong>Status:</strong> {{ ticket[5] }}</p>
 
-    <form method="POST" action="{{ url_for('add_comment') }}">
-        <textarea name="message" placeholder="Add a comment..." required></textarea>
-        <input type="hidden" name="ticket_id" value="{{ ticket[0] }}">
-        <button type="submit">Submit Comment</button>
-    </form>
+<!-- Only show these buttons if admin -->
+{% if session['role'] == 'admin' %}
 
-    <a href="/dashboard">Back to Dashboard</a>
-        <form method="GET" action="{{ url_for('confirm_close_ticket', ticket_id=ticket[0]) }}">
-        <button type="submit">Close Ticket</button>
-    </form>
-
-    {% if session['role'] == 'admin' %}
-
-    <!-- Status Change Form -->
+    <p><strong>Change Ticket Status:</strong></p>
+    
     <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
-        <label for="status">Change Ticket Status:</label>
-        <select name="status" id="status">
-            <option value="open" {% if ticket[5] == 'open' %}selected{% endif %}>Open</option>
-            <option value="in progress" {% if ticket[5] == 'in progress' %}selected{% endif %}>In Progress</option>
-            <option value="closed" {% if ticket[5] == 'closed' %}selected{% endif %}>Closed</option>
-        </select>
-        <button type="submit">Update Status</button>
+        <input type="hidden" name="status" value="open">
+        <button type="submit">Mark as Open</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
+        <input type="hidden" name="status" value="in progress">
+        <button type="submit">Mark as In Progress</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
+        <input type="hidden" name="status" value="closed">
+        <button type="submit">Mark as Closed</button>
     </form>
 
     <!-- Delete Ticket Button -->
@@ -48,7 +34,27 @@
         <button type="submit">Delete Ticket</button>
     </form>
 
-    {% endif %}
+{% endif %}
+
+<h3>Comments:</h3>
+<ul>
+    {% for comment in comments %}
+        <li>
+            <strong>{{ comment[5] }}</strong> — <em>{{ comment[4] }}</em><br>
+            {{ comment[3] }}
+        </li>
+    {% else %}
+        <li>No comments yet.</li>
+    {% endfor %}
+</ul>
+
+<form method="POST" action="{{ url_for('add_comment') }}">
+    <textarea name="message" placeholder="Add a comment..." required></textarea>
+    <input type="hidden" name="ticket_id" value="{{ ticket[0] }}">
+    <button type="submit">Submit Comment</button>
+</form>
+
+<a href="/dashboard">Back to Dashboard</a>
 
 
 </body>
