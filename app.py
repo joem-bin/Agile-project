@@ -5,7 +5,8 @@ from database_operations import (
     get_tickets_for_user,
     get_all_tickets,
     get_ticket,
-    get_comments
+    get_comments,
+    get_categories  
 )
 
 app = Flask(__name__)
@@ -53,6 +54,8 @@ def create_ticket():
     if 'user_id' not in session:
         return redirect('/')
 
+    categories = get_categories()  
+
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
@@ -63,7 +66,7 @@ def create_ticket():
 
         return redirect(url_for('ticket_submitted', title=title, description=description, category=category_id))
 
-    return render_template('create_ticket.html')
+    return render_template('create_ticket.html', categories=categories)  
 
 @app.route('/ticket_submitted')
 def ticket_submitted():

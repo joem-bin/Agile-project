@@ -61,3 +61,12 @@ def get_comments(ticket_id):
     comments = cursor.fetchall()
     conn.close()
     return comments
+
+def get_categories():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT category_id, category_name FROM categories")
+    categories = cursor.fetchall()
+    conn.close()
+    return categories
+
