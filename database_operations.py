@@ -21,3 +21,43 @@ def insert_ticket(user_id, category_id, title, description, status='open'):
     conn.close()
 
     print(f"Inserted ticket for user_id {user_id} with status '{status}'.")
+
+def get_user(username, password):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT user_id, role FROM users WHERE username = ? AND password = ?", (username, password))
+    user = cursor.fetchone()
+    conn.close()
+    return user
+
+def get_tickets_for_user(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM tickets WHERE user_id = ?", (user_id,))
+    tickets = cursor.fetchall()
+    conn.close()
+    return tickets
+
+def get_all_tickets():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM tickets")
+    tickets = cursor.fetchall()
+    conn.close()
+    return tickets
+
+def get_ticket(ticket_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
+    ticket = cursor.fetchone()
+    conn.close()
+    return ticket
+
+def get_comments(ticket_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM comments WHERE ticket_id = ?", (ticket_id,))
+    comments = cursor.fetchall()
+    conn.close()
+    return comments
