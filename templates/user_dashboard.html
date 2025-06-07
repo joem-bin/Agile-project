@@ -8,7 +8,7 @@
     <h3>Your Tickets</h3>
     <ul>
         {% for ticket in tickets %}
-            <li><a href="/ticket/{{ ticket[0] }}">{{ ticket[2] }}</a> - Description: {{ ticket[4] }}  - Status: {{ ticket[5] }}</li>
+            <li><a href="/ticket/{{ ticket[0] }}">{{ ticket[0] }}</a> - Description: {{ ticket[4] }}  - Status: {{ ticket[5] }}</li>
         {% endfor %}
     </ul>
     <a href="/logout">Logout</a>
