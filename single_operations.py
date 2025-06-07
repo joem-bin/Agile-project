@@ -1,4 +1,7 @@
 import sqlite3
+from datetime import datetime
+
+
 
 DB_NAME = "test.db"
 
@@ -12,36 +15,30 @@ def fetch_all():
     conn.close()
     return records
 
-# need updating
-def insert_item(name):
-    """Insert a new item."""
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO items (name) VALUES (?)", (name,))
-    conn.commit()
-    conn.close()
-    print(f"Inserted: {name}")
 
-# need updating
-def update_item(item_id, new_name):
-    """Update an existing item."""
-    conn = sqlite3.connect(DB_NAME)
-    cursor = conn.cursor()
-    cursor.execute("UPDATE items SET name = ? WHERE id = ?", (new_name, item_id))
-    conn.commit()
-    conn.close()
-    print(f"Updated item {item_id} to {new_name}")
+def insert_test_ticket():
+    user_id = 1
+    title = 'Test Ticket'
+    description = 'This is a test ticket inserted by test function.'
+    category_id = 1  # You can change this if you want
+    status = 'in progress'
+    created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-# need updating
-def delete_item(item_id):
-    """Delete an item."""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM items WHERE id = ?", (item_id,))
+
+    cursor.execute("""
+        INSERT INTO tickets (user_id, category_id, title, description, status, created_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (user_id, category_id, title, description, status, created_at))
+
     conn.commit()
     conn.close()
-    print(f"Deleted item {item_id}")
+
+    print(f"Inserted test ticket for user_id {user_id} with status '{status}'.")
+
 
 if __name__ == "__main__":
-    print("Current records:", fetch_all())
+    insert_test_ticket()
+    # print("Current records:", fetch_all())
 
