@@ -81,5 +81,14 @@ def close_ticket(ticket_id):
     conn.commit()
     conn.close()
 
+def insert_comment(ticket_id, user_id, message):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO comments (ticket_id, user_id, message) VALUES (?, ?, ?)",
+        (ticket_id, user_id, message)
+    )
+    conn.commit()
+    conn.close()
 
 

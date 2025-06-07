@@ -14,11 +14,12 @@
         {% endfor %}
     </ul>
 
-    <form method="POST" action="/add_comment">
-        <textarea name="message" placeholder="Add a comment..."></textarea>
+    <form method="POST" action="{{ url_for('add_comment') }}">
+        <textarea name="message" placeholder="Add a comment..." required></textarea>
         <input type="hidden" name="ticket_id" value="{{ ticket[0] }}">
         <button type="submit">Submit Comment</button>
     </form>
+
 
     <form method="GET" action="{{ url_for('confirm_close_ticket', ticket_id=ticket[0]) }}">
         <button type="submit">Close Ticket</button>

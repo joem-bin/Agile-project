@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, session, url_for, flash 
 from database_operations import (
     insert_ticket,
     get_user,
@@ -7,7 +7,8 @@ from database_operations import (
     get_ticket,
     get_comments,
     get_categories,
-    close_ticket
+    close_ticket,
+    insert_comment
 )
 
 app = Flask(__name__)
@@ -91,6 +92,23 @@ def ticket_details(ticket_id):
 
     return render_template('ticket_details.html', ticket=ticket, comments=comments)
 
+@app.route('/add_comment', methods=['POST'])
+def add_comment():
+    if 'user_id' not in session:
+        return redirect('/')
+
+    ticket_id = request.form.get('ticket_id')
+    message = request.form.get('message')
+    user_id = session['user_id']
+
+    if not message or not ticket_id:
+        # Optional: flash message or handle error gracefully
+        return redirect(url_for('ticket_details', ticket_id=ticket_id))
+
+    insert_comment(ticket_id, user_id, message)
+
+    return redirect(url_for('ticket_details', ticket_id=ticket_id))
+
 @app.route('/confirm_close_ticket/<int:ticket_id>', methods=['GET', 'POST'])
 def confirm_close_ticket(ticket_id):
     if 'user_id' not in session:
@@ -104,7 +122,6 @@ def confirm_close_ticket(ticket_id):
             return redirect(url_for('ticket_details', ticket_id=ticket_id))
 
     return render_template('confirm_close_ticket.html', ticket_id=ticket_id)
-
 
 @app.route('/logout')
 def logout():
