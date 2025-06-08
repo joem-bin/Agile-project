@@ -22,6 +22,25 @@ def insert_ticket(user_id, category_id, title, description, status='open'):
 
     print(f"Inserted ticket for user_id {user_id} with status '{status}'.")
 
+def insert_user(username, email, password, role):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
+            (username, email, password, role)
+        )
+        conn.commit()
+        success = True
+    except sqlite3.IntegrityError:
+        # Duplicate username or email
+        success = False
+    finally:
+        conn.close()
+    return success
+
+
+
 def get_user(username, password):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -57,15 +76,6 @@ def get_ticket(ticket_id):
     ticket = cursor.fetchone()
     conn.close()
     return ticket
-
-# might be moot now
-def get_comments(ticket_id):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM comments WHERE ticket_id = ?", (ticket_id,))
-    comments = cursor.fetchall()
-    conn.close()
-    return comments
 
 def get_comments_for_ticket(ticket_id):
     conn = get_db_connection()
