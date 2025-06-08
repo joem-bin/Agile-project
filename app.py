@@ -100,7 +100,6 @@ def ticket_submitted():
     category = request.args.get('category')
 
     if not title or not description or not category:
-        # Missing info, redirect to create_ticket
         return redirect(url_for('create_ticket'))
 
     return render_template('ticket_submitted.html', title=title, description=description, category=category)
@@ -127,7 +126,7 @@ def update_ticket_status_route(ticket_id):
 
     new_status = request.form.get('status')
     if new_status not in ['open', 'in progress', 'closed']:
-        return redirect(url_for('ticket_details', ticket_id=ticket_id))  # fallback
+        return redirect(url_for('ticket_details', ticket_id=ticket_id))  
 
     update_ticket_status(ticket_id, new_status)
     return redirect(url_for('ticket_details', ticket_id=ticket_id))
@@ -142,7 +141,6 @@ def add_comment():
     user_id = session['user_id']
 
     if not message or not ticket_id:
-        # Optional: flash message or handle error gracefully
         return redirect(url_for('ticket_details', ticket_id=ticket_id))
 
     insert_comment(ticket_id, user_id, message)

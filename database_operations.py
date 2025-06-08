@@ -62,10 +62,8 @@ def get_user(username, password):
         stored_hashed_password = user[1]
 
         if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password):
-            # Return user_id and role if password matches
             return (user[0], user[2])
     
-    # If no user found or password doesn't match
     return None
 
 

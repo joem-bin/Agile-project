@@ -5,9 +5,9 @@ venv/
 # Ignore __pycache__ files
 __pycache__/
 
-# Ignore SQLite database files (optional)
+# Ignore SQLite database files 
 # *.sqlite3
 # *.db
 
-# Ignore logs (optional)
-*.log
+# Ignore logs (none yet)
+# *.log

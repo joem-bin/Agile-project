@@ -5,7 +5,6 @@ from datetime import datetime
 
 DB_NAME = "test.db"
 
-# works
 def fetch_all():
     """Retrieve all records."""
     conn = sqlite3.connect(DB_NAME)
@@ -15,7 +14,6 @@ def fetch_all():
     conn.close()
     return records
 
-# works
 def insert_test_ticket():
     user_id = 1
     title = 'Test Ticket'

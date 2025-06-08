@@ -71,7 +71,6 @@ def insert_sample_data():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
-    # Hash sample passwords using bcrypt
     def hash_password(password_str):
         return bcrypt.hashpw(password_str.encode('utf-8'), bcrypt.gensalt())
 
