@@ -4,57 +4,65 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-<h2>{{ ticket[2] }}</h2>
-<p>{{ ticket[3] }}</p>
 
-<p><strong>Status:</strong> {{ ticket[5] }}</p>
+    <h2>{{ ticket[2] }}</h2>
+    <p>{{ ticket[3] }}</p>
 
-<!-- Only show these buttons if admin -->
-{% if session['role'] == 'admin' %}
+    <p><strong>Status:</strong> {{ ticket[5] }}</p>
 
-    <p><strong>Change Ticket Status:</strong></p>
-    
-    <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
-        <input type="hidden" name="status" value="open">
-        <button type="submit">Mark as Open</button>
+    <!-- Admin buttons -->
+    {% if session['role'] == 'admin' %}
+
+        <p><strong>Change Ticket Status:</strong></p>
+        
+        <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
+            <input type="hidden" name="status" value="open">
+            <button type="submit">Mark as Open</button>
+        </form>
+
+        <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
+            <input type="hidden" name="status" value="in progress">
+            <button type="submit">Mark as In Progress</button>
+        </form>
+
+        <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
+            <input type="hidden" name="status" value="closed">
+            <button type="submit">Mark as Closed</button>
+        </form>
+
+        <!-- Delete Ticket Button -->
+        <form method="POST" action="{{ url_for('delete_ticket_route', ticket_id=ticket[0]) }}" onsubmit="return confirm('Are you sure you want to permanently delete this ticket?');">
+            <button type="submit">Delete Ticket</button>
+        </form>
+
+    {% elif session['user_id'] == ticket[1] and ticket[5] != 'closed' %}
+
+        <!-- User close ticket button leads to confirmation page -->
+        <form method="GET" action="{{ url_for('confirm_close_ticket', ticket_id=ticket[0]) }}">
+            <button type="submit">Close Ticket</button>
+        </form>
+
+    {% endif %}
+
+    <h3>Comments:</h3>
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <strong>{{ comment[5] }}</strong> — <em>{{ comment[4] }}</em><br>
+                {{ comment[3] }}
+            </li>
+        {% else %}
+            <li>No comments yet.</li>
+        {% endfor %}
+    </ul>
+
+    <form method="POST" action="{{ url_for('add_comment') }}">
+        <textarea name="message" placeholder="Add a comment..." required></textarea>
+        <input type="hidden" name="ticket_id" value="{{ ticket[0] }}">
+        <button type="submit">Submit Comment</button>
     </form>
 
-    <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
-        <input type="hidden" name="status" value="in progress">
-        <button type="submit">Mark as In Progress</button>
-    </form>
-
-    <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
-        <input type="hidden" name="status" value="closed">
-        <button type="submit">Mark as Closed</button>
-    </form>
-
-    <!-- Delete Ticket Button -->
-    <form method="POST" action="{{ url_for('delete_ticket_route', ticket_id=ticket[0]) }}" onsubmit="return confirm('Are you sure you want to permanently delete this ticket?');">
-        <button type="submit">Delete Ticket</button>
-    </form>
-
-{% endif %}
-
-<h3>Comments:</h3>
-<ul>
-    {% for comment in comments %}
-        <li>
-            <strong>{{ comment[5] }}</strong> — <em>{{ comment[4] }}</em><br>
-            {{ comment[3] }}
-        </li>
-    {% else %}
-        <li>No comments yet.</li>
-    {% endfor %}
-</ul>
-
-<form method="POST" action="{{ url_for('add_comment') }}">
-    <textarea name="message" placeholder="Add a comment..." required></textarea>
-    <input type="hidden" name="ticket_id" value="{{ ticket[0] }}">
-    <button type="submit">Submit Comment</button>
-</form>
-
-<a href="/dashboard">Back to Dashboard</a>
+    <a href="/dashboard">Back to Dashboard</a>
 
 
 </body>
