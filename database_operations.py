@@ -1,5 +1,9 @@
 import sqlite3
 from datetime import datetime
+import bcrypt
+
+
+
 
 DB_NAME = "test.db"
 
@@ -22,18 +26,21 @@ def insert_ticket(user_id, category_id, title, description, status='open'):
 
     print(f"Inserted ticket for user_id {user_id} with status '{status}'.")
 
+
+
 def insert_user(username, email, password, role):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
         cursor.execute(
             "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
-            (username, email, password, role)
+            (username, email, hashed_password, role)
         )
         conn.commit()
         success = True
     except sqlite3.IntegrityError:
-        # Duplicate username or email
         success = False
     finally:
         conn.close()
@@ -41,13 +48,28 @@ def insert_user(username, email, password, role):
 
 
 
+
+
+
 def get_user(username, password):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT user_id, role FROM users WHERE username = ? AND password = ?", (username, password))
+    cursor.execute("SELECT user_id, password, role FROM users WHERE username = ?", (username,))
     user = cursor.fetchone()
     conn.close()
-    return user
+
+    if user:
+        stored_hashed_password = user[1]
+
+        if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password):
+            # Return user_id and role if password matches
+            return (user[0], user[2])
+    
+    # If no user found or password doesn't match
+    return None
+
+
+
 
 def get_tickets_for_user(user_id):
     conn = get_db_connection()

@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import bcrypt
 
 DB_NAME = "test.db"
 
@@ -20,7 +21,7 @@ def create_tables():
             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
             email TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL,
+            password BLOB NOT NULL,
             role TEXT NOT NULL
         )
     """)
@@ -33,7 +34,7 @@ def create_tables():
         )
     """)
 
-    # Tickets Table (removed status constraint)
+    # Tickets Table
     cursor.execute("""
         CREATE TABLE tickets (
             ticket_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,17 +71,21 @@ def insert_sample_data():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
+    # Hash sample passwords using bcrypt
+    def hash_password(password_str):
+        return bcrypt.hashpw(password_str.encode('utf-8'), bcrypt.gensalt())
+
     sample_users = [
-        ("admin1", "admin1@example.com", "hashed_password1", "admin"),
-        ("admin2", "admin2@example.com", "hashed_password2", "admin"),
-        ("user1", "user1@example.com", "hashed_password3", "user"),
-        ("user2", "user2@example.com", "hashed_password4", "user"),
-        ("user3", "user3@example.com", "hashed_password5", "user"),
-        ("user4", "user4@example.com", "hashed_password6", "user"),
-        ("user5", "user5@example.com", "hashed_password7", "user"),
-        ("user6", "user6@example.com", "hashed_password8", "user"),
-        ("user7", "user7@example.com", "hashed_password9", "user"),
-        ("user8", "user8@example.com", "hashed_password10", "user"),
+        ("admin1", "admin1@example.com", hash_password("adminpass1"), "admin"),
+        ("admin2", "admin2@example.com", hash_password("adminpass2"), "admin"),
+        ("user1", "user1@example.com", hash_password("userpass1"), "user"),
+        ("user2", "user2@example.com", hash_password("userpass2"), "user"),
+        ("user3", "user3@example.com", hash_password("userpass3"), "user"),
+        ("user4", "user4@example.com", hash_password("userpass4"), "user"),
+        ("user5", "user5@example.com", hash_password("userpass5"), "user"),
+        ("user6", "user6@example.com", hash_password("userpass6"), "user"),
+        ("user7", "user7@example.com", hash_password("userpass7"), "user"),
+        ("user8", "user8@example.com", hash_password("userpass8"), "user"),
     ]
     cursor.executemany("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)", sample_users)
 
