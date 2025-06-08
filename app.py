@@ -5,7 +5,6 @@ from database_operations import (
     get_tickets_for_user,
     get_all_tickets,
     get_ticket,
-    get_comments,
     get_comments_for_ticket,
     get_categories,
     close_ticket,

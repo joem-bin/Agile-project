@@ -77,15 +77,6 @@ def get_ticket(ticket_id):
     conn.close()
     return ticket
 
-# might be moot now
-def get_comments(ticket_id):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM comments WHERE ticket_id = ?", (ticket_id,))
-    comments = cursor.fetchall()
-    conn.close()
-    return comments
-
 def get_comments_for_ticket(ticket_id):
     conn = get_db_connection()
     cursor = conn.cursor()
