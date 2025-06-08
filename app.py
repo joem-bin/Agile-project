@@ -11,7 +11,8 @@ from database_operations import (
     close_ticket,
     insert_comment,
     delete_ticket, 
-    update_ticket_status
+    update_ticket_status,
+    insert_user
 )
 
 app = Flask(__name__)
@@ -35,9 +36,26 @@ def login():
     else:
         return render_template('error.html', message="Invalid credentials!")
 
-@app.route("/signup")
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    return render_template("signup.html")
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        role = request.form['role']
+
+        if password != confirm_password:
+            return render_template('error.html', message="Passwords do not match!")
+
+        success = insert_user(username, email, password, role)
+
+        if success:
+            return redirect('/')
+        else:
+            return render_template('error.html', message="Username or Email already exists!")
+
+    return render_template('signup.html')
 
 @app.route('/dashboard')
 def dashboard():
@@ -150,7 +168,6 @@ def confirm_close_ticket(ticket_id):
 def logout():
     session.clear()
     return redirect('/')
-
 
 
 if __name__ == '__main__':

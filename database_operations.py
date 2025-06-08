@@ -22,6 +22,25 @@ def insert_ticket(user_id, category_id, title, description, status='open'):
 
     print(f"Inserted ticket for user_id {user_id} with status '{status}'.")
 
+def insert_user(username, email, password, role):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
+            (username, email, password, role)
+        )
+        conn.commit()
+        success = True
+    except sqlite3.IntegrityError:
+        # Duplicate username or email
+        success = False
+    finally:
+        conn.close()
+    return success
+
+
+
 def get_user(username, password):
     conn = get_db_connection()
     cursor = conn.cursor()
