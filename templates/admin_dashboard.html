@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-
 {% block content %}
 
-<body>
+    {% include 'navbar.html' %} <!-- Adds the navbar -->
+    
+
     <h2>Admin Dashboard</h2>
     <h3>All Tickets</h3>
     <ul>
@@ -15,9 +13,5 @@
         {% endfor %}
     </ul>
     <a href="/logout">Logout</a>
-</body>
 
 {% endblock %}
-
-
-

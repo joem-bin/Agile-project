@@ -1,14 +1,83 @@
-body {
+/* header */
+
+.mod-header {
+    background-color: black;
+    color: white;
+    padding: 7px 0; /* Reducing padding for a slimmer appearance */
+    text-align: center;
+    width: 100vw; /* Ensures full-width coverage */
+    position: fixed; /* Keeps it fixed at the top */
+    top: 0;
+    left: 0;
+}
+
+.mod-heading-xl {
+    font-size: 1rem; /* Slightly smaller text */
     font-family: Arial, sans-serif;
-    margin: 20px;
+    font-weight: bold;
+    margin: 0; /* Ensures no extra spacing */
 }
-h2 {
-    color: #333;
+
+.header-space {
+    height: 20px; /* Matches header height */
 }
-form {
-    margin-top: 20px;
+
+
+.govuk-header__navigation {
+    background-color: #0b0c0c; /* GOV.UK dark theme */
+    padding: 10px;
+    text-align: center;
 }
-input, button, textarea {
-    display: block;
-    margin-bottom: 10px;
+
+/* nav */
+
+.moduk-navigation {
+    background-color: #f3f2f1;
+    padding: 10px;
+    text-align: center;
+    width: 100vw; /* Ensures full width */
 }
+
+.moduk-navigation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.moduk-navigation-item {
+    display: inline-block;
+}
+
+.moduk-navigation-link {
+    color: #532a45;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.moduk-navigation-link:hover {
+    text-decoration: underline;
+}
+
+
+/* line under header */
+
+.mod-purple-line {
+    background-color: #532a45; /* MOD Brand Purple */
+    height: 50px; /* Thin line */
+    width: 100vw;
+}
+
+/* phase banner */
+
+.moduk-phase-banner {
+    background-color: #f3f2f1;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    width: 100vw; /* Ensures full width */
+}
+
