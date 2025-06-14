@@ -14,8 +14,18 @@ from database_operations import (
     insert_user
 )
 
+
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  
+
+@app.context_processor
+def inject_user():
+    return dict(
+        username=session.get('username'),
+        user_id=session.get('user_id'),
+        role=session.get('role')
+    )
+
 
 @app.route('/')
 def home():
@@ -70,11 +80,8 @@ def dashboard():
 
     return render_template(
         'admin_dashboard.html' if session['role'] == 'admin' else 'user_dashboard.html',
-        tickets=tickets,
-        username=session.get('username', 'Guest')  # Pass username
+        tickets=tickets
     )
-
-
 
 @app.route('/create_ticket', methods=['GET', 'POST'])
 def create_ticket():

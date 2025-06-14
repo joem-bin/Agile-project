@@ -9,6 +9,7 @@
     <p><strong>Status:</strong> {{ ticket[5] }}</p>
 
     {% if session['role'] == 'admin' %}
+
         <p><strong>Change Ticket Status:</strong></p>
 
         <form method="POST" action="{{ url_for('update_ticket_status_route', ticket_id=ticket[0]) }}">
@@ -41,6 +42,7 @@
     {% endif %}
 
     <h3>Comments:</h3>
+    
     <ul>
         {% for comment in comments %}
             <li>
@@ -58,5 +60,4 @@
         <button type="submit">Submit Comment</button>
     </form>
 
-    <a href="/dashboard">Back to Dashboard</a>
 {% endblock %}
