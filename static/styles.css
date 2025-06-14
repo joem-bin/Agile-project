@@ -67,7 +67,7 @@
 
 .mod-purple-line {
     background-color: #532a45; /* MOD Brand Purple */
-    height: 50px; /* Thin line */
+    height: 35px; /* Thin line */
     width: 100vw;
 }
 
@@ -81,3 +81,24 @@
     width: 100vw; /* Ensures full width */
 }
 
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.moduk-phase-banner,
+.moduk-navigation,
+.mod-purple-line {
+    width: 100vw; /* Ensures full width */
+    margin: 0 auto; /* Removes unwanted indentation */
+    padding: 0;
+}
+
+
+.moduk-logged-in {
+    color: #532a45; /* MOD brand purple */
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5px;
+}

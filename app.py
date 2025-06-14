@@ -26,14 +26,16 @@ def login():
     username = request.form['username']
     password = request.form['password']
 
-    user = get_user(username, password)
+    user = get_user(username, password)  # Assuming this returns user details
 
     if user:
         session['user_id'] = user[0]
+        session['username'] = username  # Store username
         session['role'] = user[1]
         return redirect('/dashboard')
     else:
         return render_template('error.html', message="Invalid credentials!")
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -68,8 +70,11 @@ def dashboard():
 
     return render_template(
         'admin_dashboard.html' if session['role'] == 'admin' else 'user_dashboard.html',
-        tickets=tickets
+        tickets=tickets,
+        username=session.get('username', 'Guest')  # Pass username
     )
+
+
 
 @app.route('/create_ticket', methods=['GET', 'POST'])
 def create_ticket():
