@@ -14,7 +14,6 @@ from database_operations import (
     insert_user
 )
 
-
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  
 
@@ -25,7 +24,6 @@ def inject_user():
         user_id=session.get('user_id'),
         role=session.get('role')
     )
-
 
 @app.route('/')
 def home():
@@ -45,7 +43,6 @@ def login():
         return redirect('/dashboard')
     else:
         return render_template('error.html', message="Invalid credentials!")
-
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -166,7 +163,6 @@ def confirm_close_ticket(ticket_id):
 
     close_ticket(ticket_id)
     return redirect('/dashboard')
-
 
 @app.route('/logout')
 def logout():

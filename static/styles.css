@@ -201,3 +201,234 @@ body {
     color: #1d70b8;
     text-decoration: none;
 }
+
+
+/* styleing for ticket details */
+
+
+
+.ticket-details-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.ticket-title {
+    font-size: 1.75rem;
+    color: #13284c;
+    margin-bottom: 0.5rem;
+}
+
+.ticket-description {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.ticket-status {
+    margin-bottom: 1.5rem;
+}
+
+.status-tag {
+    display: inline-block;
+    background-color: #f3f2f1;
+    color: #532a45;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.admin-actions {
+    margin-bottom: 2rem;
+}
+
+.status-button,
+.close-ticket-button,
+.delete-button {
+    margin: 6px 6px 6px 0;
+    padding: 8px 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.status-button.open {
+    background-color: #00703c;
+    color: white;
+}
+
+.status-button.in-progress {
+    background-color: #1d70b8;
+    color: white;
+}
+
+.status-button.closed {
+    background-color: #6f777b;
+    color: white;
+}
+
+.close-ticket-button {
+    background-color: #1d70b8;
+    color: white;
+}
+
+.delete-button {
+    background-color: #d4351c;
+    color: white;
+}
+
+.comments-section {
+    margin-top: 2rem;
+}
+
+.comment-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+
+.comment-meta {
+    font-size: 0.9rem;
+    color: #6f777b;
+    margin-bottom: 0.3rem;
+}
+
+.comment-body {
+    margin-bottom: 1rem;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #b1b4b6;
+}
+
+.comment-form button {
+    background-color: #532a45;
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+/* create ticket page */
+
+
+.form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #13284c;
+}
+
+.ticket-form label {
+    display: block;
+    margin: 10px 0 4px;
+    font-weight: bold;
+}
+
+.ticket-form input[type="text"],
+.ticket-form textarea,
+.ticket-form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #b1b4b6;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.ticket-form button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+    background-color: #532a45;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.ticket-form button:hover {
+    background-color: #401e37;
+}
+
+
+
+/* ticket submitted styling */
+.confirmation-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f3f2f1;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.confirmation-heading {
+    color: #13284c;
+    margin-bottom: 20px;
+}
+
+.ticket-summary {
+    text-align: left;
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    border: 1px solid #dcdcdc;
+}
+
+.ticket-summary p {
+    margin-bottom: 10px;
+}
+
+.ticket-description {
+    margin-top: -10px;
+    margin-bottom: 20px;
+    font-style: italic;
+    color: #444;
+}
+
+.confirmation-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-button {
+    padding: 10px 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #532a45;
+    color: white;
+}
+
+.action-button.secondary {
+    background-color: #1d70b8;
+}
+
+.action-button:hover {
+    opacity: 0.9;
+}

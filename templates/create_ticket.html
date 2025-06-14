@@ -3,24 +3,24 @@
 {% block content %}
     {% include 'navbar.html' %}
 
-    <h2>Create New Ticket</h2>
+    <div class="form-container">
+        <h2>Create New Ticket</h2>
 
-    <form method="POST" action="/create_ticket">
-        <label for="title">Ticket Title:</label><br>
-        <input type="text" id="title" name="title" required><br><br>
+        <form method="POST" action="/create_ticket" class="ticket-form">
+            <label for="title">Ticket Title</label>
+            <input type="text" id="title" name="title" required>
 
-        <label for="description">Description:</label><br>
-        <textarea id="description" name="description" rows="5" cols="40" required></textarea><br><br>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="5" required></textarea>
 
-        <label for="category">Category:</label>
-        <select id="category" name="category" required>
-            {% for category in categories %}
-                <option value="{{ category[0] }}">{{ category[1] }}</option>
-            {% endfor %}
-        </select><br><br>
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                {% for category in categories %}
+                    <option value="{{ category[0] }}">{{ category[1] }}</option>
+                {% endfor %}
+            </select>
 
-        <button type="submit">Submit Ticket</button>
-    </form>
-
-    <a href="/dashboard">Back to Dashboard</a>
+            <button type="submit">Submit Ticket</button>
+        </form>
+    </div>
 {% endblock %}
