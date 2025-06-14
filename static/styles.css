@@ -102,3 +102,102 @@ body {
     text-align: center;
     margin-top: 5px;
 }
+
+/* table styling */
+
+.moduk-table-wrapper {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.moduk-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.moduk-table th,
+.moduk-table td {
+    border: 1px solid #b1b4b6;
+    padding: 10px;
+}
+
+.moduk-table th {
+    background-color: #f3f2f1;
+    font-weight: bold;
+}
+
+.moduk-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.moduk-table a {
+    color: #1d70b8;
+    text-decoration: none;
+}
+
+.moduk-table a:hover {
+    text-decoration: underline;
+}
+
+.moduk-table-container {
+    max-width: 1000px; /* Keeps table readable on large screens */
+    margin: 0 auto;    /* Centers it horizontally */
+    padding: 0 20px;   /* Adds a bit of breathing room */
+}
+
+
+
+/* login and sign up style */
+
+
+.auth-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+}
+
+.auth-container h2 {
+    text-align: center;
+    color: #532a45; /* MOD brand purple */
+}
+
+.auth-container input,
+.auth-container select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    border: 1px solid #b1b4b6;
+    border-radius: 3px;
+    font-size: 1rem;
+}
+
+.auth-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #532a45;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.auth-container button:hover {
+    background-color: #401e37;
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.auth-links a {
+    color: #1d70b8;
+    text-decoration: none;
+}

@@ -3,8 +3,6 @@ from datetime import datetime
 import bcrypt
 
 
-
-
 DB_NAME = "test.db"
 
 def get_db_connection():
@@ -146,4 +144,4 @@ def insert_comment(ticket_id, user_id, message):
     conn.commit()
     conn.close()
 
-
+close_ticket(12)

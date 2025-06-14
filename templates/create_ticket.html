@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+
     <h2>Create New Ticket</h2>
 
     <form method="POST" action="/create_ticket">
@@ -18,15 +17,10 @@
             {% for category in categories %}
                 <option value="{{ category[0] }}">{{ category[1] }}</option>
             {% endfor %}
-        </select>
-
-
-
         </select><br><br>
 
         <button type="submit">Submit Ticket</button>
     </form>
 
     <a href="/dashboard">Back to Dashboard</a>
-</body>
-</html>
+{% endblock %}

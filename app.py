@@ -152,19 +152,14 @@ def add_comment():
 
     return redirect(url_for('ticket_details', ticket_id=ticket_id))
 
-@app.route('/confirm_close_ticket/<int:ticket_id>', methods=['GET', 'POST'])
+@app.route('/confirm_close_ticket/<int:ticket_id>', methods=['POST'])
 def confirm_close_ticket(ticket_id):
     if 'user_id' not in session:
         return redirect('/')
 
-    if request.method == 'POST':
-        if request.form.get('confirm') == 'yes':
-            close_ticket(ticket_id)
-            return redirect(url_for('dashboard'))
-        else:
-            return redirect(url_for('ticket_details', ticket_id=ticket_id))
+    close_ticket(ticket_id)
+    return redirect('/dashboard')
 
-    return render_template('confirm_close_ticket.html', ticket_id=ticket_id)
 
 @app.route('/logout')
 def logout():

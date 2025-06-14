@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+
     <h2>Ticket Created Successfully!</h2>
 
     <p><strong>Title:</strong> {{ title }}</p>
@@ -12,5 +11,4 @@
 
     <a href="/dashboard"><button>Return to Dashboard</button></a>
     <a href="/create_ticket"><button>Create Another Ticket</button></a>
-</body>
-</html>
+{% endblock %}
