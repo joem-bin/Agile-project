@@ -17,6 +17,14 @@ from database_operations import (
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  
 
+@app.context_processor
+def inject_user():
+    return dict(
+        username=session.get('username'),
+        user_id=session.get('user_id'),
+        role=session.get('role')
+    )
+
 @app.route('/')
 def home():
     return render_template('login.html')
@@ -26,10 +34,11 @@ def login():
     username = request.form['username']
     password = request.form['password']
 
-    user = get_user(username, password)
+    user = get_user(username, password)  # Assuming this returns user details
 
     if user:
         session['user_id'] = user[0]
+        session['username'] = username  # Store username
         session['role'] = user[1]
         return redirect('/dashboard')
     else:
@@ -147,19 +156,13 @@ def add_comment():
 
     return redirect(url_for('ticket_details', ticket_id=ticket_id))
 
-@app.route('/confirm_close_ticket/<int:ticket_id>', methods=['GET', 'POST'])
+@app.route('/confirm_close_ticket/<int:ticket_id>', methods=['POST'])
 def confirm_close_ticket(ticket_id):
     if 'user_id' not in session:
         return redirect('/')
 
-    if request.method == 'POST':
-        if request.form.get('confirm') == 'yes':
-            close_ticket(ticket_id)
-            return redirect(url_for('dashboard'))
-        else:
-            return redirect(url_for('ticket_details', ticket_id=ticket_id))
-
-    return render_template('confirm_close_ticket.html', ticket_id=ticket_id)
+    close_ticket(ticket_id)
+    return redirect('/dashboard')
 
 @app.route('/logout')
 def logout():

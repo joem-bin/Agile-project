@@ -1,17 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+
     <h2>User Dashboard</h2>
-    <h3>Your Tickets</h3>
-    <ul>
-        {% for ticket in tickets %}
-            <li><a href="/ticket/{{ ticket[0] }}">{{ ticket[0] }}</a> - Description: {{ ticket[4] }}  - Status: {{ ticket[5] }}</li>
-        {% endfor %}
-    </ul>
-    <a href="/logout">Logout</a>
-    <a href="/create_ticket">create new ticket</a>
-</body>
-</html>
+    <h3>your Tickets</h3>
+
+    <div class="moduk-table-container">
+        <table class="moduk-table">
+
+            <div class="moduk-table-wrapper">
+                <table class="moduk-table">
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in tickets %}
+                            <tr>
+                                <td>{{ ticket[0] }}</td>
+                                <td>{{ ticket[4] }}</td>
+                                <td>{{ ticket[5] }}</td>
+                                <td><a href="/ticket/{{ ticket[0] }}">View</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </table>
+    </div>
+
+{% endblock %}

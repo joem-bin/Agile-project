@@ -1,14 +1,434 @@
-body {
+/* header */
+
+.mod-header {
+    background-color: black;
+    color: white;
+    padding: 7px 0; /* Reducing padding for a slimmer appearance */
+    text-align: center;
+    width: 100vw; /* Ensures full-width coverage */
+    position: fixed; /* Keeps it fixed at the top */
+    top: 0;
+    left: 0;
+}
+
+.mod-heading-xl {
+    font-size: 1rem; /* Slightly smaller text */
     font-family: Arial, sans-serif;
-    margin: 20px;
+    font-weight: bold;
+    margin: 0; /* Ensures no extra spacing */
 }
-h2 {
-    color: #333;
+
+.header-space {
+    height: 20px; /* Matches header height */
 }
-form {
+
+
+.govuk-header__navigation {
+    background-color: #0b0c0c; /* GOV.UK dark theme */
+    padding: 10px;
+    text-align: center;
+}
+
+/* nav */
+
+.moduk-navigation {
+    background-color: #f3f2f1;
+    padding: 10px;
+    text-align: center;
+    width: 100vw; /* Ensures full width */
+}
+
+.moduk-navigation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.moduk-navigation-item {
+    display: inline-block;
+}
+
+.moduk-navigation-link {
+    color: #532a45;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.moduk-navigation-link:hover {
+    text-decoration: underline;
+}
+
+
+/* line under header */
+
+.mod-purple-line {
+    background-color: #532a45; /* MOD Brand Purple */
+    height: 35px; /* Thin line */
+    width: 100vw;
+}
+
+/* phase banner */
+
+.moduk-phase-banner {
+    background-color: #f3f2f1;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    width: 100vw; /* Ensures full width */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.moduk-phase-banner,
+.moduk-navigation,
+.mod-purple-line {
+    width: 100vw; /* Ensures full width */
+    margin: 0 auto; /* Removes unwanted indentation */
+    padding: 0;
+}
+
+
+.moduk-logged-in {
+    color: #532a45; /* MOD brand purple */
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* table styling */
+
+.moduk-table-wrapper {
+    overflow-x: auto;
     margin-top: 20px;
 }
-input, button, textarea {
-    display: block;
+
+.moduk-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.moduk-table th,
+.moduk-table td {
+    border: 1px solid #b1b4b6;
+    padding: 10px;
+}
+
+.moduk-table th {
+    background-color: #f3f2f1;
+    font-weight: bold;
+}
+
+.moduk-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.moduk-table a {
+    color: #1d70b8;
+    text-decoration: none;
+}
+
+.moduk-table a:hover {
+    text-decoration: underline;
+}
+
+.moduk-table-container {
+    max-width: 1000px; /* Keeps table readable on large screens */
+    margin: 0 auto;    /* Centers it horizontally */
+    padding: 0 20px;   /* Adds a bit of breathing room */
+}
+
+
+
+/* login and sign up style */
+
+
+.auth-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+}
+
+.auth-container h2 {
+    text-align: center;
+    color: #532a45; /* MOD brand purple */
+}
+
+.auth-container input,
+.auth-container select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
     margin-bottom: 10px;
+    border: 1px solid #b1b4b6;
+    border-radius: 3px;
+    font-size: 1rem;
+}
+
+.auth-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #532a45;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.auth-container button:hover {
+    background-color: #401e37;
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.auth-links a {
+    color: #1d70b8;
+    text-decoration: none;
+}
+
+
+/* styleing for ticket details */
+
+
+
+.ticket-details-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.ticket-title {
+    font-size: 1.75rem;
+    color: #13284c;
+    margin-bottom: 0.5rem;
+}
+
+.ticket-description {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.ticket-status {
+    margin-bottom: 1.5rem;
+}
+
+.status-tag {
+    display: inline-block;
+    background-color: #f3f2f1;
+    color: #532a45;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.admin-actions {
+    margin-bottom: 2rem;
+}
+
+.status-button,
+.close-ticket-button,
+.delete-button {
+    margin: 6px 6px 6px 0;
+    padding: 8px 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.status-button.open {
+    background-color: #00703c;
+    color: white;
+}
+
+.status-button.in-progress {
+    background-color: #1d70b8;
+    color: white;
+}
+
+.status-button.closed {
+    background-color: #6f777b;
+    color: white;
+}
+
+.close-ticket-button {
+    background-color: #1d70b8;
+    color: white;
+}
+
+.delete-button {
+    background-color: #d4351c;
+    color: white;
+}
+
+.comments-section {
+    margin-top: 2rem;
+}
+
+.comment-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+
+.comment-meta {
+    font-size: 0.9rem;
+    color: #6f777b;
+    margin-bottom: 0.3rem;
+}
+
+.comment-body {
+    margin-bottom: 1rem;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #b1b4b6;
+}
+
+.comment-form button {
+    background-color: #532a45;
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+/* create ticket page */
+
+
+.form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #13284c;
+}
+
+.ticket-form label {
+    display: block;
+    margin: 10px 0 4px;
+    font-weight: bold;
+}
+
+.ticket-form input[type="text"],
+.ticket-form textarea,
+.ticket-form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #b1b4b6;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.ticket-form button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+    background-color: #532a45;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.ticket-form button:hover {
+    background-color: #401e37;
+}
+
+
+
+/* ticket submitted styling */
+.confirmation-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f3f2f1;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.confirmation-heading {
+    color: #13284c;
+    margin-bottom: 20px;
+}
+
+.ticket-summary {
+    text-align: left;
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    border: 1px solid #dcdcdc;
+}
+
+.ticket-summary p {
+    margin-bottom: 10px;
+}
+
+.ticket-description {
+    margin-top: -10px;
+    margin-bottom: 20px;
+    font-style: italic;
+    color: #444;
+}
+
+.confirmation-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-button {
+    padding: 10px 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #532a45;
+    color: white;
+}
+
+.action-button.secondary {
+    background-color: #1d70b8;
+}
+
+.action-button:hover {
+    opacity: 0.9;
 }

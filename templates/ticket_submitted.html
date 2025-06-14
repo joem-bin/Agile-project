@@ -1,16 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <h2>Ticket Created Successfully!</h2>
+{% extends 'base.html' %}
 
-    <p><strong>Title:</strong> {{ title }}</p>
-    <p><strong>Description:</strong> {{ description }}</p>
-    <p><strong>Category:</strong> {{ category }}</p>
+{% block content %}
+    {% include 'navbar.html' %}
 
-    <a href="/dashboard"><button>Return to Dashboard</button></a>
-    <a href="/create_ticket"><button>Create Another Ticket</button></a>
-</body>
-</html>
+    <div class="confirmation-container">
+        <h2 class="confirmation-heading">Ticket Created Successfully!</h2>
+
+        <div class="ticket-summary">
+            <p><strong>Title:</strong> {{ title }}</p>
+            <p><strong>Description:</strong></p>
+            <p class="ticket-description">{{ description }}</p>
+            <p><strong>Category:</strong> {{ category }}</p>
+        </div>
+
+        <div class="confirmation-actions">
+            <a href="/dashboard"><button class="action-button">Return to Dashboard</button></a>
+            <a href="/create_ticket"><button class="action-button secondary">Create Another Ticket</button></a>
+        </div>
+    </div>
+{% endblock %}
