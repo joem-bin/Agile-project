@@ -26,8 +26,6 @@ def insert_ticket(user_id, category_id, title, description, status='open'):
 
     print(f"Inserted ticket for user_id {user_id} with status '{status}'.")
 
-
-
 def insert_user(username, email, password, role):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -46,11 +44,6 @@ def insert_user(username, email, password, role):
         conn.close()
     return success
 
-
-
-
-
-
 def get_user(username, password):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -66,9 +59,6 @@ def get_user(username, password):
     
     return None
 
-
-
-
 def get_tickets_for_user(user_id):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -79,7 +69,6 @@ def get_tickets_for_user(user_id):
     tickets = cursor.fetchall()
     conn.close()
     return tickets
-
 
 def get_all_tickets():
     conn = get_db_connection()
@@ -113,7 +102,6 @@ def get_comments_for_ticket(ticket_id):
     conn.close()
     return comments
 
-
 def delete_ticket(ticket_id):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -132,7 +120,6 @@ def update_ticket_status(ticket_id, new_status):
     cursor.execute("UPDATE tickets SET status = ? WHERE ticket_id = ?", (new_status, ticket_id))
     conn.commit()
     conn.close()
-
 
 def get_categories():
     conn = get_db_connection()
