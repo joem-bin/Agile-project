@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for, flash 
+from flask import Flask, render_template, request, redirect, session, url_for 
 from database_operations import (
     insert_ticket,
     get_user,

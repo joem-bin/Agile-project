@@ -1,9 +1,14 @@
 import sqlite3
 from datetime import datetime
 import bcrypt
+import os
+from dotenv import load_dotenv
 
 
-DB_NAME = "test.db"
+load_dotenv()
+DB_NAME = os.getenv("DB_NAME")
+
+
 
 def get_db_connection():
     return sqlite3.connect(DB_NAME)
@@ -144,4 +149,4 @@ def insert_comment(ticket_id, user_id, message):
     conn.commit()
     conn.close()
 
-close_ticket(12)
+

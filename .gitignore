@@ -11,3 +11,9 @@ __pycache__/
 
 # Ignore logs (none yet)
 # *.log
+
+
+# .gitignore
+*.db
+.env
+__pycache__/
