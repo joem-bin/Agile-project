@@ -1,8 +1,11 @@
 import sqlite3
-import os
 import bcrypt
+import os
+from dotenv import load_dotenv
 
-DB_NAME = "test.db"
+
+load_dotenv()
+DB_NAME = os.getenv("DB_NAME")
 
 def reset_database():
     """Deletes the existing database file if it exists."""

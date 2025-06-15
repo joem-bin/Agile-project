@@ -1,9 +1,11 @@
 import sqlite3
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
 
-
-DB_NAME = "test.db"
+load_dotenv()
+DB_NAME = os.getenv("DB_NAME")
 
 def fetch_all():
     """Retrieve all records."""
