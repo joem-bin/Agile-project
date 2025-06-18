@@ -20,11 +20,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-
-
-
-
-
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 
@@ -53,7 +48,7 @@ def login():
         if not username or not password:
             flash("Username and password are required.", "error")
             app.logger.warning("Login attempt with missing credentials.")
-            return redirect('/')
+            return redirect(url_for('home'))
 
         user = get_user(username, password)
 
@@ -62,13 +57,13 @@ def login():
             session['username'] = username
             session['role'] = user[1]
             app.logger.info(f"User '{username}' logged in successfully.")
-            return redirect('/dashboard')
+            return redirect(url_for('dashboard'))
         else:
             flash("Incorrect username or password.", "error")
             app.logger.warning(f"Login failed for username: {username}")
-            return redirect('/')
+            return redirect(url_for('home'))
 
-    except Exception as e:
+    except Exception:
         app.logger.exception("Unexpected error during login.")
         return render_template("error.html", message="Something went wrong."), 500
 
@@ -100,15 +95,13 @@ def signup():
         if success:
             app.logger.info(f"User '{username}' registered.")
             flash("Account created! Please log in.", "success")
-            return redirect('/')
+            return redirect(url_for('home'))
         else:
             flash("Username or email already exists.", "error")
             app.logger.warning(f"Signup failed for '{username}' — duplicate.")
             return render_template('signup.html')
 
     return render_template('signup.html')
-
-
 
 
 @app.route('/check_username')
@@ -120,14 +113,13 @@ def check_username():
     exists = username_exists(username)
     return jsonify({'exists': exists})
 
-
-
-
-
+# find a way to check this
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
-        return redirect('/')
+        flash("Please log in to view the dashboard.", "error")
+        app.logger.warning("Unauthorized dashboard access.")
+        return redirect(url_for('home'))
 
     if session['role'] == 'admin':
         tickets = get_all_tickets()
@@ -142,26 +134,40 @@ def dashboard():
 @app.route('/create_ticket', methods=['GET', 'POST'])
 def create_ticket():
     if 'user_id' not in session:
-        return redirect('/')
+        flash("You must be logged in to create a ticket.", "error")
+        return redirect(url_for('home'))
 
-    categories = get_categories()  
+    categories = get_categories()
 
     if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        category_id = request.form['category']
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        category_id = request.form.get('category')
         user_id = session['user_id']
 
-        insert_ticket(user_id, category_id, title, description)
+        if not all([title, description, category_id]):
+            flash("All fields are required to submit a ticket.", "error")
+            app.logger.warning(f"Ticket submission failed — missing fields (user {user_id})")
+            return render_template('create_ticket.html', categories=categories, title=title, description=description, selected_category=category_id)
 
-        return redirect(url_for('ticket_submitted', title=title, description=description, category=category_id))
+        try:
+            insert_ticket(user_id, category_id, title, description)
+            app.logger.info(f"Ticket created by user {user_id}: '{title}'")
+            return redirect(url_for('ticket_submitted', title=title, description=description, category=category_id))
+        
+        except Exception:
+            app.logger.exception(f"Ticket creation failed for user {user_id}")
+            flash("Something went wrong while creating your ticket.", "error")
+            return render_template('create_ticket.html', categories=categories, title=title, description=description, selected_category=category_id)
 
-    return render_template('create_ticket.html', categories=categories)  
+    return render_template('create_ticket.html', categories=categories)
+
 
 @app.route('/ticket_submitted')
 def ticket_submitted():
     if 'user_id' not in session:
-        return redirect('/')
+        flash("You must be logged in to view this page.", "error")
+        return redirect(url_for('home'))
 
     title = request.args.get('title')
     description = request.args.get('description')
@@ -175,58 +181,70 @@ def ticket_submitted():
 @app.route('/ticket/<int:ticket_id>')
 def ticket_details(ticket_id):
     ticket = get_ticket(ticket_id)
-    comments = get_comments_for_ticket(ticket_id)
+    if not ticket:
+        app.logger.warning(f"Ticket {ticket_id} not found.")
+        return render_template("error.html", message="Ticket not found."), 404
 
+    comments = get_comments_for_ticket(ticket_id)
     return render_template('ticket_details.html', ticket=ticket, comments=comments)
 
 @app.route('/delete_ticket/<int:ticket_id>', methods=['POST'])
 def delete_ticket_route(ticket_id):
     if 'user_id' not in session or session['role'] != 'admin':
-        return redirect('/')
+        flash("Only admins can delete tickets.", "error")
+        return redirect(url_for('home'))
 
     delete_ticket(ticket_id)
-    return redirect('/dashboard')
+    app.logger.info(f"Ticket {ticket_id} deleted by admin {session['user_id']}")
+    return redirect(url_for('dashboard'))
 
 @app.route('/update_ticket_status/<int:ticket_id>', methods=['POST'])
 def update_ticket_status_route(ticket_id):
     if 'user_id' not in session or session['role'] != 'admin':
-        return redirect('/')
+        flash("Unauthorized ticket status update attempt.", "error")
+        return redirect(url_for('home'))
 
     new_status = request.form.get('status')
     if new_status not in ['open', 'in progress', 'closed']:
-        return redirect(url_for('ticket_details', ticket_id=ticket_id))  
+        app.logger.warning(f"Invalid ticket status '{new_status}'")
+        return redirect(url_for('ticket_details', ticket_id=ticket_id))
 
     update_ticket_status(ticket_id, new_status)
+    app.logger.info(f"Ticket {ticket_id} updated to '{new_status}' by admin {session['user_id']}")
     return redirect(url_for('ticket_details', ticket_id=ticket_id))
 
 @app.route('/add_comment', methods=['POST'])
 def add_comment():
     if 'user_id' not in session:
-        return redirect('/')
+        flash("You must be logged in to comment.", "error")
+        return redirect(url_for('home'))
 
     ticket_id = request.form.get('ticket_id')
     message = request.form.get('message')
     user_id = session['user_id']
 
     if not message or not ticket_id:
+        app.logger.warning("Comment submission failed — missing message or ticket ID.")
         return redirect(url_for('ticket_details', ticket_id=ticket_id))
 
     insert_comment(ticket_id, user_id, message)
-
+    app.logger.info(f"Comment added to ticket {ticket_id} by user {user_id}")
     return redirect(url_for('ticket_details', ticket_id=ticket_id))
 
 @app.route('/confirm_close_ticket/<int:ticket_id>', methods=['POST'])
 def confirm_close_ticket(ticket_id):
     if 'user_id' not in session:
-        return redirect('/')
+        flash("You must be logged in to close a ticket.", "error")
+        return redirect(url_for('home'))
 
     close_ticket(ticket_id)
-    return redirect('/dashboard')
+    app.logger.info(f"Ticket {ticket_id} closed by user {session['user_id']}")
+    return redirect(url_for('dashboard'))
 
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect('/')
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
