@@ -1,4 +1,10 @@
-from database_operations import insert_user, insert_ticket, insert_comment, get_comments_for_ticket
+from database_operations import (
+    insert_user,
+    insert_ticket,
+    insert_comment,
+    get_comments_for_ticket,
+)
+
 
 def test_insert_comment_and_fetch():
     insert_user("bob", "bob@mail.com", "pass123", "user")

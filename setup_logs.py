@@ -4,9 +4,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-LOG_DIR = os.getenv('LOG_DIR', 'logs')
-LOG_FILE = os.getenv('LOG_FILE', 'app.log')
-LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG').upper()
+LOG_DIR = os.getenv("LOG_DIR", "logs")
+LOG_FILE = os.getenv("LOG_FILE", "app.log")
+LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG").upper()
+
 
 def setup_logging():
     # Remove old log file
@@ -22,14 +23,14 @@ def setup_logging():
     # Console handler (show everything)
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.DEBUG)
-    console_format = logging.Formatter('%(levelname)-8s | %(message)s')
+    console_format = logging.Formatter("%(levelname)-8s | %(message)s")
     console_handler.setFormatter(console_format)
     logger.addHandler(console_handler)
 
     # File handler (record WARNING+ only)
     file_handler = logging.FileHandler(log_path)
     file_handler.setLevel(logging.WARNING)
-    file_format = logging.Formatter('%(asctime)s | %(levelname)-8s | %(message)s')
+    file_format = logging.Formatter("%(asctime)s | %(levelname)-8s | %(message)s")
     file_handler.setFormatter(file_format)
     logger.addHandler(file_handler)
 
@@ -39,6 +40,7 @@ def setup_logging():
     logger.warning("Warning message: risky behavior.")
     logger.error("Error message: something failed.")
     logger.critical("Critical message: app is in danger.")
+
 
 if __name__ == "__main__":
     setup_logging()

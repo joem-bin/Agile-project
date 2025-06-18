@@ -2,21 +2,21 @@ import os
 import pytest
 import sqlite3
 from dotenv import load_dotenv
+
 load_dotenv()
 
 from database_operations import get_db_connection
 import app as flask_app_module
 
+
 @pytest.fixture
 def client():
-    flask_app_module.app.config['TESTING'] = True
+    flask_app_module.app.config["TESTING"] = True
     with flask_app_module.app.test_client() as client:
         yield client
 
 
-
-
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def temp_db(monkeypatch):
     test_db = "temp_test.db"
 

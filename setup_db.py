@@ -7,11 +7,13 @@ from dotenv import load_dotenv
 load_dotenv()
 DB_NAME = os.getenv("DB_NAME")
 
+
 def reset_database():
     """Deletes the existing database file if it exists."""
     if os.path.exists(DB_NAME):
         os.remove(DB_NAME)
         print("Database reset.")
+
 
 def create_tables():
     """Creates the database and all required tables."""
@@ -19,7 +21,8 @@ def create_tables():
     cursor = conn.cursor()
 
     # Users Table
-    cursor.execute("""
+    cursor.execute(
+        """
         CREATE TABLE users (
             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
@@ -27,18 +30,22 @@ def create_tables():
             password BLOB NOT NULL,
             role TEXT NOT NULL
         )
-    """)
+    """
+    )
 
     # Categories Table
-    cursor.execute("""
+    cursor.execute(
+        """
         CREATE TABLE categories (
             category_id INTEGER PRIMARY KEY AUTOINCREMENT,
             category_name TEXT NOT NULL UNIQUE
         )
-    """)
+    """
+    )
 
     # Tickets Table
-    cursor.execute("""
+    cursor.execute(
+        """
         CREATE TABLE tickets (
             ticket_id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
@@ -50,10 +57,12 @@ def create_tables():
             FOREIGN KEY (user_id) REFERENCES users(user_id),
             FOREIGN KEY (category_id) REFERENCES categories(category_id)
         )
-    """)
+    """
+    )
 
     # Comments Table
-    cursor.execute("""
+    cursor.execute(
+        """
         CREATE TABLE comments (
             comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
             ticket_id INTEGER NOT NULL,
@@ -63,11 +72,13 @@ def create_tables():
             FOREIGN KEY (ticket_id) REFERENCES tickets(ticket_id),
             FOREIGN KEY (user_id) REFERENCES users(user_id)
         )
-    """)
+    """
+    )
 
     conn.commit()
     conn.close()
     print("Database tables created successfully.")
+
 
 def insert_sample_data():
     """Inserts sample data into the database."""
@@ -75,7 +86,7 @@ def insert_sample_data():
     cursor = conn.cursor()
 
     def hash_password(password_str):
-        return bcrypt.hashpw(password_str.encode('utf-8'), bcrypt.gensalt())
+        return bcrypt.hashpw(password_str.encode("utf-8"), bcrypt.gensalt())
 
     sample_users = [
         ("admin1", "admin1@example.com", hash_password("adminpass1"), "admin"),
@@ -89,13 +100,26 @@ def insert_sample_data():
         ("user7", "user7@example.com", hash_password("userpass7"), "user"),
         ("user8", "user8@example.com", hash_password("userpass8"), "user"),
     ]
-    cursor.executemany("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)", sample_users)
+    cursor.executemany(
+        "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
+        sample_users,
+    )
 
     sample_categories = [
-        ("Software Issue",), ("Hardware Issue",), ("Access Request",), ("Network Issue",), ("Security Issue",),
-        ("UI Bug",), ("Performance Issue",), ("Database Error",), ("API Failure",), ("Other",)
+        ("Software Issue",),
+        ("Hardware Issue",),
+        ("Access Request",),
+        ("Network Issue",),
+        ("Security Issue",),
+        ("UI Bug",),
+        ("Performance Issue",),
+        ("Database Error",),
+        ("API Failure",),
+        ("Other",),
     ]
-    cursor.executemany("INSERT INTO categories (category_name) VALUES (?)", sample_categories)
+    cursor.executemany(
+        "INSERT INTO categories (category_name) VALUES (?)", sample_categories
+    )
 
     sample_tickets = [
         (1, 1, "Can't install software", "Installation fails with error code", "open"),
@@ -109,7 +133,10 @@ def insert_sample_data():
         (9, 9, "API timeout", "3rd party service unresponsive", "resolved"),
         (10, 10, "General support request", "Need help with configuration", "open"),
     ]
-    cursor.executemany("INSERT INTO tickets (user_id, category_id, title, description, status) VALUES (?, ?, ?, ?, ?)", sample_tickets)
+    cursor.executemany(
+        "INSERT INTO tickets (user_id, category_id, title, description, status) VALUES (?, ?, ?, ?, ?)",
+        sample_tickets,
+    )
 
     sample_comments = [
         (1, 1, "Have you tried rebooting?"),
@@ -123,11 +150,15 @@ def insert_sample_data():
         (9, 9, "API provider confirmed downtime."),
         (10, 10, "Assistance provided, closing ticket."),
     ]
-    cursor.executemany("INSERT INTO comments (ticket_id, user_id, message) VALUES (?, ?, ?)", sample_comments)
+    cursor.executemany(
+        "INSERT INTO comments (ticket_id, user_id, message) VALUES (?, ?, ?)",
+        sample_comments,
+    )
 
     conn.commit()
     conn.close()
     print("Database populated successfully.")
+
 
 if __name__ == "__main__":
     reset_database()
