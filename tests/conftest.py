@@ -1,12 +1,10 @@
 import os
 import pytest
 import sqlite3
+import app as flask_app_module
 from dotenv import load_dotenv
 
 load_dotenv()
-
-from database_operations import get_db_connection
-import app as flask_app_module
 
 
 @pytest.fixture

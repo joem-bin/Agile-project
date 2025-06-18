@@ -1,7 +1,6 @@
 from database_operations import (
     insert_ticket,
     get_ticket,
-    get_all_tickets,
     update_ticket_status,
     close_ticket,
     delete_ticket,

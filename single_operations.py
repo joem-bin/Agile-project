@@ -31,7 +31,7 @@ def insert_test_ticket():
 
     cursor.execute(
         """
-        INSERT INTO tickets (user_id, category_id, title, description, status, created_at)
+        INSERT INTO tickets (user_id,category_id,title,description,status,created_at)
         VALUES (?, ?, ?, ?, ?, ?)
     """,
         (user_id, category_id, title, description, status, created_at),
