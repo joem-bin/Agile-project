@@ -35,7 +35,7 @@ jobs:
 
       - name: Run security audit with Bandit
         run: |
-          bandit -r app.py database_operations.py
+          bandit -r . -x tests,venv,.venv,__pycache__ -s B101,B311
 
       - name: Lint HTML/Jinja templates with djlint
         run: |
