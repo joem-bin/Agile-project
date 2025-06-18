@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for 
+from flask import Flask, render_template, request, redirect, session, url_for, flash
 from database_operations import (
     insert_ticket,
     get_user,
@@ -13,9 +13,18 @@ from database_operations import (
     update_ticket_status,
     insert_user
 )
+from logger import configure_logging
+from error_handlers import register_error_handlers
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  
+app.secret_key = os.getenv('SECRET_KEY', 'fallback-key') # fallback key?
+
+
+configure_logging()
+register_error_handlers(app)
 
 @app.context_processor
 def inject_user():
@@ -31,18 +40,31 @@ def home():
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
+    try:
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '').strip()
 
-    user = get_user(username, password)  # Assuming this returns user details
+        if not username or not password:
+            flash("Username and password are required.", "error")
+            app.logger.warning("Login attempt with missing credentials.")
+            return redirect('/')
 
-    if user:
-        session['user_id'] = user[0]
-        session['username'] = username  # Store username
-        session['role'] = user[1]
-        return redirect('/dashboard')
-    else:
-        return render_template('error.html', message="Invalid credentials!")
+        user = get_user(username, password)
+
+        if user:
+            session['user_id'] = user[0]
+            session['username'] = username
+            session['role'] = user[1]
+            app.logger.info(f"User '{username}' logged in successfully.")
+            return redirect('/dashboard')
+        else:
+            flash("Incorrect username or password.", "error")
+            app.logger.warning(f"Login failed for username: {username}")
+            return redirect('/')
+
+    except Exception as e:
+        app.logger.exception("Unexpected error during login.")
+        return render_template("error.html", message="Something went wrong."), 500
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -171,4 +193,10 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    ENV = os.getenv("FLASK_ENV", "production")
+
+    app.debug = ENV == "development"
+    app.logger.info(f"Running in {ENV} mode")
+
+    app.run()
+

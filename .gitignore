@@ -15,5 +15,17 @@ __pycache__/
 
 # .gitignore
 *.db
-.env
+
+__pycache__/
+*.pyc
+
+
+# logs
+logs/
+*.log
+
+# temp
+
+logs/*
+!logs/.gitkeep
 __pycache__/

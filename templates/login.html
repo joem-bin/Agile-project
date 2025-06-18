@@ -1,21 +1,47 @@
 {% extends 'base.html' %}
 
+{% block title %}Login{% endblock %}
+
 {% block content %}
-    <div class="auth-container">
-        <h2>Login</h2>
-        <form method="POST" action="/login">
-            <label for="username">Username</label><br>
-            <input type="text" id="username" name="username" required><br><br>
+  <div class="auth-container">
 
-            <label for="password">Password</label><br>
-            <input type="password" id="password" name="password" required><br><br>
-
-            <button type="submit">Login</button>
-        </form>
-
-        <div class="auth-links">
-            <a href="/signup">Create New Account</a>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="govuk-error-summary" role="alert" aria-labelledby="error-summary-title" tabindex="-1">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              {% for category, message in messages %}
+                {% if category == 'error' %}
+                  <li>{{ message }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
         </div>
-    </div>
-{% endblock %}
+      {% endif %}
+    {% endwith %}
 
+    <h2 class="govuk-heading-m">Login</h2>
+    <form method="POST" action="/login" novalidate>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="username">Username</label>
+        <input class="govuk-input" id="username" name="username" type="text" required>
+      </div>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="password">Password</label>
+        <input class="govuk-input" id="password" name="password" type="password" required>
+      </div>
+
+      <button class="govuk-button" type="submit">Login</button>
+    </form>
+
+    <div class="auth-links govuk-!-margin-top-4">
+      <a href="/signup" class="govuk-link">Create New Account</a>
+    </div>
+  </div>
+{% endblock %}
