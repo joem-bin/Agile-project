@@ -1,4 +1,11 @@
-from database_operations import insert_ticket, get_ticket, get_all_tickets, update_ticket_status, close_ticket, delete_ticket
+from database_operations import (
+    insert_ticket,
+    get_ticket,
+    update_ticket_status,
+    close_ticket,
+    delete_ticket,
+)
+
 
 def test_insert_and_get_ticket():
     insert_ticket(user_id=1, category_id=1, title="Test Ticket", description="Details")
@@ -16,12 +23,14 @@ def test_update_ticket_status():
 
     assert ticket[5] == "in progress"
 
+
 def test_close_ticket():
     insert_ticket(1, 1, "Closing Time", "Test")
     close_ticket(1)
     ticket = get_ticket(1)
 
     assert ticket[5] == "closed"
+
 
 def test_delete_ticket():
     insert_ticket(1, 1, "Gone Soon", "Test delete")

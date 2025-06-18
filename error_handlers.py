@@ -1,5 +1,6 @@
 from flask import render_template, request
 
+
 def register_error_handlers(app):
     @app.errorhandler(400)
     def bad_request(e):
@@ -29,7 +30,12 @@ def register_error_handlers(app):
     @app.errorhandler(429)
     def too_many(e):
         app.logger.warning(f"429 - Too many requests: {e}")
-        return render_template("error.html", message="Too many requests. Please slow down."), 429
+        return (
+            render_template(
+                "error.html", message="Too many requests. Please slow down."
+            ),
+            429,
+        )
 
     @app.errorhandler(500)
     def internal_server_error(e):
