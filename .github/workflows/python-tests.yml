@@ -1,4 +1,4 @@
-name: Run Unit Tests
+name: Run Unit Tests and Quality Checks
 
 on:
   push:
@@ -17,14 +17,30 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.8'  
+          python-version: '3.8'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest python-dotenv
+          pip install pytest python-dotenv flake8 black bandit djlint
 
-      - name: Run tests
+      - name: Lint with flake8
         run: |
-          pytest
+          flake8 app.py database_operations.py tests
+
+      - name: Check code formatting with black
+        run: |
+          black --check .
+
+      - name: Run security audit with Bandit
+        run: |
+          bandit -r app.py database_operations.py
+
+      - name: Lint HTML/Jinja templates with djlint
+        run: |
+          djlint templates/ --check
+
+      - name: Run unit tests
+        run: |
+          pytest tests
