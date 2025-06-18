@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for, flash
+from flask import Flask, render_template, request, redirect, session, url_for, flash, jsonify
 from database_operations import (
     insert_ticket,
     get_user,
@@ -11,7 +11,8 @@ from database_operations import (
     insert_comment,
     delete_ticket, 
     update_ticket_status,
-    insert_user
+    insert_user,
+    username_exists
 )
 from logger import configure_logging
 from error_handlers import register_error_handlers
@@ -19,8 +20,13 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+
+
+
+
+
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'fallback-key') # fallback key?
+app.secret_key = os.getenv('SECRET_KEY')
 
 
 configure_logging()
@@ -69,23 +75,54 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        confirm_password = request.form['confirm_password']
-        role = request.form['role']
+        username = request.form.get('username', '').strip()
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '').strip()
+        confirm_password = request.form.get('confirm_password', '').strip()
+        role = request.form.get('role', 'user')
+
+        if not all([username, email, password, confirm_password]):
+            flash("All fields are required.", "error")
+            app.logger.warning("Signup attempt with missing fields.")
+            return render_template('signup.html')
 
         if password != confirm_password:
-            return render_template('error.html', message="Passwords do not match!")
+            flash("Passwords do not match.", "error")
+            app.logger.warning(f"Password mismatch for '{username}'")
+            return render_template('signup.html')
+
+        if len(password) < 6:
+            flash("Password must be at least 6 characters.", "error")
+            app.logger.warning(f"Weak password on signup for '{username}'")
+            return render_template('signup.html')
 
         success = insert_user(username, email, password, role)
-
         if success:
+            app.logger.info(f"User '{username}' registered.")
+            flash("Account created! Please log in.", "success")
             return redirect('/')
         else:
-            return render_template('error.html', message="Username or Email already exists!")
+            flash("Username or email already exists.", "error")
+            app.logger.warning(f"Signup failed for '{username}' — duplicate.")
+            return render_template('signup.html')
 
     return render_template('signup.html')
+
+
+
+
+@app.route('/check_username')
+def check_username():
+    username = request.args.get('username', '').strip()
+    if not username:
+        return jsonify({'exists': False})
+    
+    exists = username_exists(username)
+    return jsonify({'exists': exists})
+
+
+
+
 
 @app.route('/dashboard')
 def dashboard():
