@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: flask-ticketing-app
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: >
+      bash -c "
+        python setup_db.py &&
+        python setup_logs.py &&
+        gunicorn app:app"
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        value: supersecretkey
+      - key: DB_NAME
+        value: app.db
+      - key: LOG_DIR
+        value: logs
+      - key: LOG_LEVEL
+        value: INFO
+      - key: LOG_FILE
+        value: app.log
