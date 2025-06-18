@@ -149,4 +149,12 @@ def insert_comment(ticket_id, user_id, message):
     conn.commit()
     conn.close()
 
+def username_exists(username):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT user_id FROM users WHERE username = ?", (username,))
+    exists = cursor.fetchone() is not None
+    conn.close()
+    return exists
+
 

@@ -1,33 +1,103 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="auth-container">
-        <h2>Create New Account</h2>
-        <form method="POST" action="/signup">
+<div class="auth-container">
+    <h2>Create New Account</h2>
 
-            <label for="username">Username</label><br>
-            <input type="text" id="username" name="username" required><br><br>
-
-            <label for="email">Email</label><br>
-            <input type="email" id="email" name="email" required><br><br>
-
-            <label for="password">Password</label><br>
-            <input type="password" id="password" name="password" required><br><br>
-
-            <label for="confirm_password">Confirm Password</label><br>
-            <input type="password" id="confirm_password" name="confirm_password" required><br><br>
-
-            <label for="role">Role</label><br>
-            <select id="role" name="role" required>
-                <option value="user" selected>User</option>
-                <option value="admin">Admin</option>
-            </select><br><br>
-
-            <button type="submit">Sign Up</button>
-        </form>
-
-        <div class="auth-links">
-            <a href="/">Back to Login</a>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="govuk-error-summary" role="alert">
+          <h2>There is a problem</h2>
+          <ul>
+            {% for category, message in messages %}
+              <li style="color: darkred">{{ message }}</li>
+            {% endfor %}
+          </ul>
         </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/signup" onsubmit="return validateForm()">
+        <label for="username">Username</label><br>
+        <input type="text" name="username" id="username" value="{{ request.form.username }}" required><br><br>
+
+        <label for="email">Email</label><br>
+        <input type="email" name="email" id="email" value="{{ request.form.email }}" required><br><br>
+
+        <label for="password">Password</label><br>
+        <input type="password" name="password" id="password" required><br><br>
+
+        <label for="confirm_password">Confirm Password</label><br>
+        <input type="password" name="confirm_password" id="confirm_password" required><br><br>
+
+        <label for="role">Role</label><br>
+        <select name="role" id="role" required>
+            <option value="user" {% if request.form.role == 'user' %}selected{% endif %}>User</option>
+            <option value="admin" {% if request.form.role == 'admin' %}selected{% endif %}>Admin</option>
+        </select><br><br>
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <div class="auth-links">
+        <a href="/">Back to Login</a>
     </div>
+</div>
+
+<script>
+function validateForm() {
+    const pw = document.getElementById("password").value;
+    const confirm = document.getElementById("confirm_password").value;
+
+    if (pw.length < 6) {
+        alert("Password must be at least 6 characters.");
+        return false;
+    }
+
+    if (pw !== confirm) {
+        alert("Passwords do not match.");
+        return false;
+    }
+
+    return true;
+}
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const usernameInput = document.getElementById("username");
+    const feedback = document.createElement("div");
+    feedback.style.fontSize = "0.9em";
+    usernameInput.parentNode.insertBefore(feedback, usernameInput.nextSibling);
+
+    usernameInput.addEventListener("input", function () {
+        const username = usernameInput.value.trim();
+        if (username.length < 3) {
+            feedback.textContent = "";
+            return;
+        }
+
+        fetch(`/check_username?username=${encodeURIComponent(username)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    feedback.textContent = "Username is already taken.";
+                    feedback.style.color = "darkred";
+                } else {
+                    feedback.textContent = "Username is available.";
+                    feedback.style.color = "darkgreen";
+                }
+            })
+            .catch(() => {
+                feedback.textContent = "Error checking username.";
+                feedback.style.color = "darkred";
+            });
+    });
+});
+</script>
+
+
+
+
 {% endblock %}

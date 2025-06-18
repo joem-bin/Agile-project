@@ -432,3 +432,18 @@ body {
 .action-button:hover {
     opacity: 0.9;
 }
+
+
+/* error styling */
+
+
+.govuk-error-summary {
+  border-left-color: #d4351c !important;
+  background-color: #f3f2f1;
+  padding: 1rem;
+}
+
+.govuk-error-summary__title,
+.govuk-error-summary__list li {
+  color: #d4351c;
+}
