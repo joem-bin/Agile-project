@@ -4,28 +4,22 @@ venv/
 
 # Ignore __pycache__ files
 __pycache__/
+*.pyc
+
 
 # Ignore SQLite database files 
-# *.sqlite3
-# *.db
+*.sqlite3
+*.db
 
-# Ignore logs (none yet)
-# *.log
 
 
 # .gitignore
 *.db
+.env
 
-__pycache__/
-*.pyc
 
 
 # logs
 logs/
 *.log
 
-# temp
-
-logs/*
-!logs/.gitkeep
-__pycache__/
