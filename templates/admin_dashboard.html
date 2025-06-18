@@ -1,15 +1,10 @@
 {% extends 'base.html' %}
-
 {% block content %}
-
     {% include 'navbar.html' %}
-
     <h2>Admin Dashboard</h2>
     <h3>All Tickets</h3>
-
     <div class="moduk-table-container">
         <table class="moduk-table">
-
             <div class="moduk-table-wrapper">
                 <table class="moduk-table">
                     <thead>
@@ -26,14 +21,14 @@
                                 <td>{{ ticket[0] }}</td>
                                 <td>{{ ticket[4] }}</td>
                                 <td>{{ ticket[5] }}</td>
-                                <td><a href="/ticket/{{ ticket[0] }}">View</a></td>
+                                <td>
+                                    <a href="/ticket/{{ ticket[0] }}">View</a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-
         </table>
     </div>
-
 {% endblock %}

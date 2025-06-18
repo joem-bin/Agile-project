@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <title>Flask App Ticket System</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-
-<body>
-    {% include 'header.html' %}
-
-    {% include 'phase_banner.html' %}
-    
-    {% block content %}{% endblock %}
-</body>
-
+    <head>
+        <title>Flask App Ticket System</title>
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        {% include 'header.html' %}
+        {% include 'phase_banner.html' %}
+        {% block content %}{% endblock %}
+    </body>
 </html>
