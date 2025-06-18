@@ -25,6 +25,10 @@ jobs:
           pip install -r requirements.txt
           pip install pytest python-dotenv flake8 black bandit djlint
 
+      - name: Set environment variables
+        run: |
+          echo "SECRET_KEY=testsecretkey" >> $GITHUB_ENV
+
       - name: Lint with flake8
         run: |
           flake8 app.py database_operations.py tests
