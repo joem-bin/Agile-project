@@ -4,6 +4,17 @@
 
 A Flask-based web application for submitting, managing, and resolving support tickets. Built with SQLite, modularized logic, GOV.UK styling, integrated logging, security scanning, and CI automation.
 
+
+## Live Demo
+
+This project is deployed and live on Render:  
+[https://it-ticket-system-joe-m.onrender.com/dashboard]
+
+Note: It may take a few seconds to wake up after inactivity (free-tier cold start).
+
+
+
+
 ---
 
 ## Setup Instructions
@@ -11,7 +22,7 @@ A Flask-based web application for submitting, managing, and resolving support ti
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/joem-bin/Agile-project.git
 cd your-repo
 ```
 
@@ -54,22 +65,19 @@ Never commit `.env` to version control—use `.env.example` for sharing structur
 
 5. **(Optional) Run logging setup (clears old logs and verifies setup):**
 
-```bash
+
 python setup_logs.py
 
 6. **reset the db (puts 10 sample records in the db)**
-```bash
+
 python setup_db.py
 python setup_logs.py
 
 
 7. **Run the app:**
 
-```bash
-python app.py
-```
 
----
+python app.py
 
 ## Testing
 
@@ -79,12 +87,6 @@ python app.py
 pytest tests
 ```
 
-### Using test coverage:
-
-```bash
-pip install pytest-cov
-pytest --cov=app
-```
 
 ### Format + lint before committing:
 
@@ -131,4 +133,4 @@ python app.py
 - [ ] Role-based access control enhancements  
 - [ ] Email notifications for ticket updates  
 - [ ] Pagination/search for large ticket queues  
-- [ ] CI badge + code coverage reporting  
+
