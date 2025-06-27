@@ -128,7 +128,6 @@ def check_username():
     return jsonify({"exists": exists})
 
 
-# find a way to check this
 @app.route("/dashboard")
 def dashboard():
     if "user_id" not in session:
@@ -208,13 +207,15 @@ def ticket_submitted():
 
     title = request.args.get("title")
     description = request.args.get("description")
-    category = request.args.get("category")
+    category_id = request.args.get("category")
 
-    if not title or not description or not category:
+    category_name = dict(get_categories()).get(int(category_id), "Unknown")
+
+    if not title or not description or not category_id:
         return redirect(url_for("create_ticket"))
 
     return render_template(
-        "ticket_submitted.html", title=title, description=description, category=category
+        "ticket_submitted.html", title=title, description=description, category=category_name,
     )
 
 
