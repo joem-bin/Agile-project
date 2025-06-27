@@ -215,7 +215,10 @@ def ticket_submitted():
         return redirect(url_for("create_ticket"))
 
     return render_template(
-        "ticket_submitted.html", title=title, description=description, category=category_name,
+        "ticket_submitted.html",
+        title=title,
+        description=description,
+        category=category_name,
     )
 
 
